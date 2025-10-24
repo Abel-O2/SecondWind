@@ -1,16 +1,12 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package secondwind;
 
-/**
- *
- * @author Samuel
- */
 import java.util.*;
+
 public class Stages extends GameLogic{
     Random random;
+    SecondWind_ SW;
+    Minion minion;
+    GameLogic objGL;
     int currentTurns = super.getTurns();
     //Colors
     String res = "\u001B[0m"; //Reset
@@ -23,6 +19,7 @@ public class Stages extends GameLogic{
     public void Stage1Part1(Character hero) throws InterruptedException{
         super.setTurns(1);
         //Scanner me = new Scanner(System.in);
+        SecondWind_ SW = new SecondWind_();
         Minion minion = new Minion("Google",50);
         clearConsole();
         GameLogic objGL = new GameLogic();
@@ -33,6 +30,7 @@ public class Stages extends GameLogic{
 
         int action;
         boolean hasDefended=false;
+        SW.pbPlayerHP.setMaximum(hero.getHealth());
         while (hero.isAlive() && minion.isAlive()) {
             displayTurns();
             printL(hero.getName()+y+ "\t\t vs \t\t" +res+minion.getName());
@@ -42,7 +40,11 @@ public class Stages extends GameLogic{
             printL(b+"MP: "+hero.getEnergy()+res);
             pnl(3);
             System.out.println("Choose Action: \n"+b+"1- Normal attack[10~20DMG & Regain 20MP] \n"+res+g+"2- Defend[Regain 10MP] \n"+res+y+"3- Special Attack [Needs 100MP]"+res);
-            action = getUserInput();
+            SW.pbPlayerHP.setValue(hero.getHealth());
+            SW.pbPlayerMP.setValue(hero.getEnergy());
+            SW.lblNameP.setText(hero.getName());
+            SW.lblNameP.repaint();
+            action = SW.getAction();
             switch (action){
                 case 1: hero.attackEnemy(minion);
                         pnl(1);                        
@@ -78,9 +80,10 @@ public class Stages extends GameLogic{
     public void Stage1Part2(Character hero) throws InterruptedException{
         super.setTurns(1);
         //Scanner me = new Scanner(System.in);
+        SecondWind_ SW = new SecondWind_();
         Minion minion = new Minion("Facebook",75);
         clearConsole();
-        GameLogic objGL = new GameLogic();
+        objGL = new GameLogic();
         objGL.EncounterArt();
         printL(y+"Battle against Minion starts!"+res);
         pnl(2);
@@ -97,7 +100,7 @@ public class Stages extends GameLogic{
             printL(b+"MP: "+hero.getEnergy()+res);
             pnl(3);
             System.out.println("Choose Action: \n"+b+"1- Normal attack[10~20DMG & Regain 20MP] \n"+res+g+"2- Defend[Regain 10MP] \n"+res+y+"3- Special Attack [Needs 100MP]"+res);
-            action = getUserInput();
+            action = SW.getAction();
             switch (action){
                 case 1: hero.attackEnemy(minion);
                         pnl(1);                        
@@ -133,7 +136,8 @@ public class Stages extends GameLogic{
     public void Stage1Part3(Character hero) throws InterruptedException{
         super.setTurns(1);
         //Scanner me = new Scanner(System.in);
-        Minion minion = new Minion("Amazon",100);
+        SW = new SecondWind_();
+        minion = new Minion("Amazon",100);
         clearConsole();
         GameLogic objGL = new GameLogic();
         objGL.EncounterArt();
@@ -152,7 +156,7 @@ public class Stages extends GameLogic{
             printL(b+"MP: "+hero.getEnergy()+res);
             pnl(3);
             System.out.println("Choose Action: \n"+b+"1- Normal attack[10~20DMG & Regain 20MP] \n"+res+g+"2- Defend[Regain 10MP] \n"+res+y+"3- Special Attack [Needs 100MP]"+res);
-            action = getUserInput();
+            action = SW.getAction();
             switch (action){
                 case 1: hero.attackEnemy(minion);
                         pnl(1);                        
@@ -186,10 +190,10 @@ public class Stages extends GameLogic{
     }
     public void Stage2PartJeff(Character hero) throws InterruptedException{
         //Scanner me = new Scanner(System.in);
-
+        SecondWind_ SW = new SecondWind_();
         boolean jeffDef=false;
         boolean hasDefended=false;
-        Enemy general= new enemyJeff();
+        Enemy general= new enemyShielder();
         clearConsole();
         GameLogic objGL = new GameLogic();
         objGL.EncounterArt();
@@ -208,7 +212,7 @@ public class Stages extends GameLogic{
             printL(b+"MP: "+hero.getEnergy()+res);
             pnl(3);
             System.out.println("Choose Action: \n"+b+"1- Normal attack[10~20DMG & Regain 20MP] \n"+res+g+"2- Defend[Regain 10MP] \n"+res+y+"3- Special Attack [Needs 100MP]"+res);
-            action = getUserInput();
+            action = SW.getAction();
             switch (action){
                 case 1: if (jeffDef==false){
                             hero.attackEnemyG(general);
@@ -256,8 +260,8 @@ public class Stages extends GameLogic{
     
     public void Stage2PartMark(Character hero) throws InterruptedException{
         //Scanner me = new Scanner(System.in);
-
-        enemyMark general= new enemyMark();
+        SecondWind_ SW = new SecondWind_();
+        enemyMage general= new enemyMage();
         clearConsole();
         GameLogic objGL = new GameLogic();
         objGL.EncounterArt();
@@ -277,7 +281,7 @@ public class Stages extends GameLogic{
             printL(b+"MP: "+hero.getEnergy()+res);
             pnl(3);
             System.out.println("Choose Action: \n"+b+"1- Normal attack[10~20DMG & Regain 20MP] \n"+res+g+"2- Defend[Regain 10MP] \n"+res+y+"3- Special Attack [Needs 100MP]"+res);
-            action = getUserInput();
+            action = SW.getAction();
             switch (action){
                 case 1: hero.attackEnemyG(general);                        
                         break;
@@ -321,8 +325,8 @@ public class Stages extends GameLogic{
     
     public void Stage2PartElon(Character hero) throws InterruptedException{
         //Scanner me = new Scanner(System.in);
-
-        enemyElon general= new enemyElon();
+        SecondWind_ SW = new SecondWind_();
+        enemyAssassin general= new enemyAssassin();
         clearConsole();
         GameLogic objGL = new GameLogic();
         objGL.EncounterArt();
@@ -343,7 +347,7 @@ public class Stages extends GameLogic{
             printL(b+"MP: "+hero.getEnergy()+res);
             pnl(3);
             System.out.println("Choose Action: \n"+b+"1- Normal attack[10~20DMG & Regain 20MP] \n"+res+g+"2- Defend[Regain 10MP] \n"+res+y+"3- Special Attack [Needs 100MP]"+res);
-            action = getUserInput();
+            action = SW.getAction();
             switch (action){
                 case 1: hero.attackEnemyG(general);                        
                         break;
@@ -386,7 +390,7 @@ public class Stages extends GameLogic{
     
     public void Stage3(Character hero) throws InterruptedException{
         //Scanner me = new Scanner(System.in);
-
+        SecondWind_ SW = new SecondWind_();
         alterBoss alienKing= new alterBoss();
         clearConsole();
         GameLogic objGL = new GameLogic();
@@ -411,7 +415,7 @@ public class Stages extends GameLogic{
             printL(b+"MP: "+hero.getEnergy()+res);
             pnl(3);
             System.out.println("Choose Action: \n"+b+"1- Normal attack[10~20DMG & Regain 20MP] \n"+res+g+"2- Defend[Regain 10MP] \n"+res+y+"3- Special Attack [Needs 100MP]"+res);
-            action = getUserInput();
+            action = SW.getAction();
             switch (action){
                 case 1: hero.attackEnemyG(alienKing);                        
                         break;

@@ -1,26 +1,24 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package secondwind;
 
-/**
- *
- * @author Samuel
- */
 import java.util.*;
 
 public abstract class Enemy{
     protected String name;
     protected int hp;
     Random random;
+    protected int damage;
+
+    public int getDamage() {
+        return damage;
+    }
+    
     
     //Colors
     String res = "\u001B[0m"; //Reset
-        String r = "\u001B[31m"; //Red
-        String g = "\u001B[32m"; //Green
-        String b = "\u001B[34m"; //Blue
-        String y = "\u001B[33m"; //Yellow
+    String r = "\u001B[31m"; //Red
+    String g = "\u001B[32m"; //Green
+    String b = "\u001B[34m"; //Blue
+    String y = "\u001B[33m"; //Yellow
 
     public Enemy(String name, int hp) {
         this.name = name;
@@ -40,11 +38,13 @@ public abstract class Enemy{
     }
     
     public abstract void attackHero(Character hero);
-    public abstract void skill(Character hero)throws InterruptedException;
+    public abstract void skill(Character hero);
 
    public int attack() {
         random = new Random();
-        return random.nextInt(5) + 1; // Random damage between 1 and 10
+        int dmg=random.nextInt(5) + 1;
+        damage=dmg;
+        return  dmg;// Random damage between 1 and 10
     }
 
     public String getName() {
@@ -74,7 +74,9 @@ class alterBoss extends Enemy {
 
     @Override
     public int attack() {
-        return super.attack(); // Regular attack
+        int dmg = random.nextInt(5) + 1;
+        damage = dmg;
+        return  dmg; // Regular attack
     }
 
     @Override
@@ -85,26 +87,26 @@ class alterBoss extends Enemy {
     }
     //Hero did not Defend
     @Override
-    public void skill(Character hero) throws InterruptedException{
+    public void skill(Character hero){
         int damage = random.nextInt(20)+80;
         System.out.println(y+name + " uses a special skill!"+res);
         clearConsole();
         System.out.print(y+"============================================\n"+res);
-        printL(r+"\"I HAVE NO USE FOR A TAINTED WORLD.\"\n"+res);
+        System.out.println(r+"\"I HAVE NO USE FOR A TAINTED WORLD.\"\n"+res);
         System.out.print(y+"============================================\n"+res);
-        printL(r+"The Alien King dealt "+damage+" damage!"+res);
+        System.out.println(r+"The Alien King dealt "+damage+" damage!"+res);
         System.out.println();
         hero.takeDamage(damage);
     }
     //Hero Defended
-    public void skillDef(Character hero) throws InterruptedException{
+    public void skillDef(Character hero){
         int damage = random.nextInt(20)+20;
         System.out.println(y+name + " uses a special skill!"+res);
         clearConsole();
         System.out.print(y+"============================================\n"+res);
-        printL(r+"\"I HAVE NO USE FOR A TAINTED WORLD.\"\n");
+        System.out.println(r+"\"I HAVE NO USE FOR A TAINTED WORLD.\"\n");
         System.out.print(y+"============================================\n"+res);
-        printL(r+"The Alien King dealt "+damage+" damage!"+res);
+        System.out.println(r+"The Alien King dealt "+damage+" damage!"+res);
         System.out.println();
         hero.takeDamage(damage);
     }
@@ -132,9 +134,9 @@ class Minion extends Enemy{
     }
 }
 
-class enemyElon extends Enemy{
-    public enemyElon(){
-        super("Alien Elon", 250); //Minion's health (subjected to change)
+class enemyAssassin extends Enemy{
+    public enemyAssassin(){
+        super("Alter I", 250); //Minion's health (subjected to change)
     }
     
     @Override
@@ -151,36 +153,36 @@ class enemyElon extends Enemy{
     }
     //Hero did not Defend
     @Override
-    public void skill(Character hero) throws InterruptedException{
-        int damage= 20+(attack()*2);
+    public void skill(Character hero){
+        int damage= 20+(attack()/**2*/);
         System.out.println(y+name + " uses a special skill!"+res);
         hero.takeDamage(damage);
         clearConsole();
         System.out.print(y+"============================================\n"+res);
-        printL(r+"\"Orbital strike, SpaceEX!\"\n"+res);
+        System.out.println(r+"\"Orbital strike, SpaceEX!\"\n"+res);
         System.out.print(y+"============================================\n"+res);
-        printL(r+"Alien Elon dealt "+damage+" damage!"+res);
+        System.out.println(r+"Alien Elon dealt "+damage+" damage!"+res);
         System.out.println();
         hero.takeDamage(damage);
     }
     //Hero defended
-    public void skillDef(Character hero) throws InterruptedException{
+    public void skillDef(Character hero){
         int damage= 10+(attack());
         System.out.println(y+name + " uses a special skill!"+res);
         hero.takeDamage(damage);
         clearConsole();
         System.out.print(y+"============================================\n"+res);
-        printL(r+"\"Orbital strike, SpaceEX!\"\n"+res);
+        System.out.println(r+"\"Orbital strike, SpaceEX!\"\n"+res);
         System.out.print(y+"============================================\n"+res);
-        printL(r+"Alien Elon dealt "+damage+" damage!"+res);
+        System.out.println(r+"Alien Elon dealt "+damage+" damage!"+res);
         System.out.println();
         hero.takeDamage(damage);
     }
 }
 
-class enemyJeff extends Enemy{
-    public enemyJeff(){
-        super("Alien Jeff", 300); //Minion's health (subjected to change)
+class enemyShielder extends Enemy{
+    public enemyShielder(){
+        super("Alter H", 300); //Minion's health (subjected to change)
     }
     
     @Override
@@ -197,7 +199,7 @@ class enemyJeff extends Enemy{
     }
     @Override
     public void skill(Character hero){
-        boolean successfulDefense = random.nextDouble() < 0.99;
+        boolean successfulDefense = random.nextDouble() < 1;
         if (successfulDefense) {
             System.out.println(r+name + " will block the next attack!"+res);
         } else {
@@ -208,9 +210,9 @@ class enemyJeff extends Enemy{
     }
 }
 
-class enemyMark extends Enemy{
-    public enemyMark(){
-        super("Alien Mark", 200); //Minion's health (subjected to change)
+class enemyMage extends Enemy{
+    public enemyMage(){
+        super("Alter E", 200); //Minion's health (subjected to change)
     }
     
     @Override
@@ -227,41 +229,41 @@ class enemyMark extends Enemy{
     }
     //Hero did not defend
     @Override
-    public void skill(Character hero) throws InterruptedException{
+    public void skill(Character hero){
         int damage;
         int total_dmg=0;
-        printL(y+name + " uses a special skill!\n"+res);
+        System.out.println(y+name + " uses a special skill!\n"+res);
         clearConsole();
         System.out.print(y+"============================================\n"+res);
-        printL(r+"\"The vision of the future, METAVERSE!\"\n"+res);
+        System.out.println(r+"\"The vision of the future, METAVERSE!\"\n"+res);
         System.out.print(y+"============================================\n"+res);
         for (int i=1;i<=5;i++){
             damage = random.nextInt(20)+1;
-            printL(r+"Hit #"+i+": " + damage + " damage!"+res);
+            System.out.println(r+"Hit #"+i+": " + damage + " damage!"+res);
             System.out.println();
             total_dmg+=damage;
             hero.takeDamage(damage);
         }
-        printL(r+"Alien Mark dealt "+total_dmg+" damage!"+res);
+        System.out.println(r+"Alien Mark dealt "+total_dmg+" damage!"+res);
         System.out.println();
     }
     //Hero Defends
-    public void skillDef(Character hero) throws InterruptedException{
+    public void skillDef(Character hero){
         int damage;
         int total_dmg=0;
-        printL(y+name + " uses a special skill!\n"+res);
+        System.out.println(y+name + " uses a special skill!\n"+res);
         clearConsole();
         System.out.print(y+"============================================\n"+res);
-        printL(r+"\"The vision of the future, METAVERSE!\"\n"+res);
+        System.out.println(r+"\"The vision of the future, METAVERSE!\"\n"+res);
         System.out.print(y+"============================================\n"+res);
         for (int i=1;i<=5;i++){
             damage = random.nextInt(10)+1;
-            printL(r+"Hit #"+i+": " + damage + " damage!"+res);
+            System.out.println(r+"Hit #"+i+": " + damage + " damage!"+res);
             System.out.println();
             total_dmg+=damage;
             hero.takeDamage(damage);
         }
-        printL(r+"Alien Mark dealt "+total_dmg+" damage!"+res);
+        System.out.println(r+"Alien Mark dealt "+total_dmg+" damage!"+res);
         System.out.println();
     }
 }
